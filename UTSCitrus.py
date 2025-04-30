@@ -1,8 +1,11 @@
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 from sklearn.model_selection import train_test_split # type: ignore
 from sklearn.naive_bayes import GaussianNB # type: ignore
 from sklearn.preprocessing import LabelEncoder # type: ignore
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report # type: ignore
+
 
 # pertama load dataset terlebih dahulu
 df = pd.read_csv("citrus.csv")
@@ -30,9 +33,23 @@ accuracy = accuracy_score(y_test, y_pred)
 conf_matrix = confusion_matrix(y_test, y_pred)
 class_report = classification_report(y_test, y_pred, target_names=le.classes_)
 
+print("\nClassification Report:")
+print(class_report)
+
+# Tambahkan grafik Confusion Matrix
+plt.figure(figsize=(6,5))
+sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', 
+            xticklabels=le.classes_, yticklabels=le.classes_)
+plt.title('Confusion Matrix')
+plt.xlabel('Predicted Label')
+plt.ylabel('True Label')
+plt.tight_layout()
+plt.show()
+
 print("======= clusterfikasi jeruk dan anggur menggunakan metode naive bayen =======")
 print("Akurasi: {:.2f}%".format(accuracy_score(y_test, y_pred) * 100))
 print("\nConfusion Matrix:")
 print(confusion_matrix(y_test, y_pred))
 print("\nClassification Report:")
+print(class_report)
 print(classification_report(y_test, y_pred, target_names=le.classes_))
